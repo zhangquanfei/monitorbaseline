@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="dao.MonitorDao">
+
+    <select id="addmonitor" parameterType="map">
+        insert into monitor (directory, event, exclude,thread,ip,state) values (#{directory},#{event},#{exclude},#{thread},#{ip},#{state})
+    </select>
+
+    <select id="selectAllMonitor" parameterType="map" resultType="model.Monitor">
+        select directory, event, exclude ,ip ,state from monitor
+    </select>
+
+    <select id="deleteMonitor" parameterType="int" resultType="model.Monitor">
+     DELETE FROM monitor WHERE id = #{id}
+    </select>
+
+    <select id="queryIdByRow" parameterType="int" resultType="int">
+        SELECT id FROM monitor LIMIT #{row},1
+    </select>
+
+    <select id="queryIpByRow" parameterType="int" resultType="string">
+        SELECT ip FROM monitor LIMIT #{row},1
+    </select>
+
+    <select id="queryThreadByRow" parameterType="int" resultType="string">
+        SELECT thread FROM monitor LIMIT #{row},1
+    </select>
+
+
+    <select id="quertyAllLogMonitor"  resultType="model.LogMonitor">
+        select ip, EVENT, direction ,TIME from eventdata ORDER BY id DESC
+    </select>
+
+
+    <select id="addcopyfile" parameterType="map">
+        insert into copyfile (ip, originaldir, copydir,TIME) values (#{ip},#{originaldir},#{copydir},#{TIME})
+    </select>
+
+    <select id="quertyAllCopyFile"  resultType="model.CopyFile">
+        select ip, originaldir, copydir ,TIME from copyfile ORDER BY id DESC
+    </select>
+
+
+    <select id="queryCopyFileByIPNowFile" parameterType="map" resultType="string">
+        SELECT masterdir FROM md5data WHERE ip = #{ip} AND direction = #{direction};
+    </select>
+
+    <select id="quertyAllCheckout"  resultType="model.CheckoutData">
+        select ip, DATA,TIME from checkoutdata ORDER BY id DESC
+    </select>
+
+    <delete id="deleteAllCheckout">
+        TRUNCATE TABLE checkoutdata
+    </delete>
+
+
+    <select id="queryCopyFileIdByRow" parameterType="int" resultType="int">
+        SELECT id FROM copyfile LIMIT #{row},1
+    </select>
+
+
+    <select id="deleteCopyFileById" parameterType="int">
+        DELETE FROM copyfile WHERE id = #{id}
+    </select>
+
+
+    <select id="queryCopyFileByRow" parameterType="int" resultType="model.CopyFile">
+        SELECT * FROM copyfile LIMIT #{row},1
+    </select>
+
+    <select id="deleteMD5DataByOri" parameterType="string">
+        DELETE FROM md5data WHERE direction REGEXP #{originaldir}
+    </select>
+
+
+</mapper>

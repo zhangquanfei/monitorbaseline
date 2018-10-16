@@ -1,0 +1,77 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+		http://www.springframework.org/schema/mvc
+		http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd
+		http://www.springframework.org/schema/context
+		http://www.springframework.org/schema/context/spring-context-3.2.xsd
+		http://www.springframework.org/schema/aop
+		http://www.springframework.org/schema/aop/spring-aop-3.2.xsd
+		http://www.springframework.org/schema/tx
+		http://www.springframework.org/schema/tx/spring-tx-3.2.xsd ">
+
+
+    <bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
+        <property name="realm" ref="customRealm" />
+    </bean>
+
+    <!--spring配置shrio的类的初始化和摧毁可以用它实现-->
+    <bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor"></bean>
+
+    <!--shiro注解使用-->
+    <bean class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator" depends-on="lifecycleBeanPostProcessor"></bean>
+    <bean class="org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor">
+        <property name="securityManager" ref="securityManager"/>
+    </bean>
+
+    <!-- shiro核心配置。这个bean的id必须要和web.xml中的shiroFilter一样 -->
+    <bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
+        <property name="securityManager" ref="securityManager" />
+        <!--配置登录页面-->
+        <property name="loginUrl" value="/shiro-test.jsp" />
+        <!-- 登录成功后页面-->
+        <property name="successUrl" value="/rz-success.html"/>
+        <!--授权失败跳转页面-->
+        <property name="unauthorizedUrl" value="/refuse.html" />
+
+
+        <!--配置拦截哪些url-->
+        <property name="filterChainDefinitions">
+            <value>
+                <!--可以任意访问 开始-->
+                /shiro-test.jsp = anon
+                /rz-success.html = anon
+                /refuse.html = anon
+                <!--可以任意访问 结束-->
+
+                <!--退出配置 开始-->
+                <!--当访问 /shiro-logout连接时就会退出当前用户，并清空session-->
+                /shiro-logout = logout
+                <!--退出配置  结束-->
+
+
+                <!--权限访问 开始-->
+                <!--要具有user权限才能访问。访问这两个页面时会调用自定义realm的授权方法-->
+                /user.jsp = roles[user]
+                /admin.jsp = roles[admin]
+                <!--权限访问 结束-->
+
+                <!--认证访问 开始-->
+                <!--除去前面几行的页面控制配置。剩下的其他页面都需要认证。
+                当/shiro-test.jsp认证页面认证通过后，这些东西就可以访问了
+
+                /** = authc -->
+                <!--认证访问 结束-->
+            </value>
+        </property>
+    </bean>
+
+
+
+    <bean id="customRealm" class="security.CustomRealm" init-method="setCredentialMatcher">
+
+    </bean>
+</beans>
