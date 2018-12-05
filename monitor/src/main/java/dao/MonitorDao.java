@@ -30,7 +30,6 @@ public interface MonitorDao {
 
     void deleteAllCheckout();
 
-
     int queryCopyFileIdByRow(int row);
     void deleteCopyFileById(int id);
     CopyFile queryCopyFileByRow(int row);
