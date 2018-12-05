@@ -8,6 +8,7 @@ import javax.annotation.Resource;
 public class UPServiceImpl implements UPService{
     @Resource
     private UsernamePasswordDao usernamePasswordDao;
+     @Override
      public UsernamePassword queryByUsername(String userName){
         return usernamePasswordDao.queryByUsername(userName);
      }

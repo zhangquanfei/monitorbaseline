@@ -32,20 +32,22 @@ public class MonitorServiceImpl implements MonitorService {
             usernamePasswordDao.insertUsernamePassword(map);
     }
 
-
-
+    @Override
     public void addmonitor(Map<String, Object> map) {
         monitorDao.addmonitor(map);
     }
 
+    @Override
     public List<Monitor> selectAllMonitor() {
         return monitorDao.selectAllMonitor();
     }
 
+    @Override
     public void deleteMonitor(int id) {
         monitorDao.deleteMonitor(id);
     }
 
+    @Override
     public int queryIdByRow(int row) {
         return monitorDao.queryIdByRow(row);
     }

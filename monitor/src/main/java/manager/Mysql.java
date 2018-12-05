@@ -22,7 +22,7 @@ public class Mysql {
 
 
     static {
-        String mysql_url = "jdbc:mysql://192.168.99.73:3306/db_ssm?autoReconnect=true";
+        String mysql_url = "jdbc:mysql://localhost:3306/db_ssm?autoReconnect=true";
         //
         //com.mysql.jdbc.exceptions.jdbc4.MySQLNonTransientConnectionException: Data source rejected establishment of connection,  message from server: "Too many connections"
         try {
@@ -36,6 +36,9 @@ public class Mysql {
         }
     }
 
+    public static void main(String[] args){
+        Mysql mysql = new Mysql();
+    }
 
 
 

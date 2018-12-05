@@ -10,7 +10,7 @@ public class ClientHandler extends ChannelInboundHandlerAdapter {
     public static Channel channel = null;
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
-        this.channel = ctx.channel();
+        channel = ctx.channel();
         System.out.println("连接成功");
         System.out.println(channel.id());
         // System.out.println("连接成功");
