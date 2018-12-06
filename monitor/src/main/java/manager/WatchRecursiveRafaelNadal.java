@@ -185,7 +185,7 @@ public class WatchRecursiveRafaelNadal implements ServletContextListener {
                     final Path directory_path = directories.get(key);   
                     final Path child = directory_path.resolve(filename);   
                     System.out.println(kind + "-> " + child);
-                    this.sss = kind + "-> " + child;
+                    sss = kind + "-> " + child;
                     if (Files.isDirectory(child, LinkOption.NOFOLLOW_LINKS)) {   
                         registerTree(child,exclude,events);
                     }
@@ -195,7 +195,7 @@ public class WatchRecursiveRafaelNadal implements ServletContextListener {
                     final Path directory_path = directories.get(key);   
                     final Path child = directory_path.resolve(filename);  
                     System.out.println(kind + "-> " + child);
-                    this.sss = kind + "-> " + child;
+                    sss = kind + "-> " + child;
                 }
                 
                 if (kind == StandardWatchEventKinds.ENTRY_MODIFY) {
@@ -204,7 +204,7 @@ public class WatchRecursiveRafaelNadal implements ServletContextListener {
                     System.out.println(kind + "-> " + child);
 
 
-                    this.sss = kind + "-> " + child;
+                    sss = kind + "-> " + child;
 
 
 
@@ -255,6 +255,7 @@ public class WatchRecursiveRafaelNadal implements ServletContextListener {
      * 内部类线程类
      */
     class SendToClientThread implements Runnable {
+        @Override
         public void run() {
             while (true) {
                 try {

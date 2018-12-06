@@ -12,7 +12,7 @@ public class InformMonitorStart {
 
         RPC.Builder builder = new RPC.Builder(new Configuration());
 
-        builder.setBindAddress("192.168.99.73").setPort(10000).setProtocol(InformMonitorInterface.class).setInstance(new InformMonitorImpl());
+        builder.setBindAddress("localhost").setPort(10000).setProtocol(InformMonitorInterface.class).setInstance(new InformMonitorImpl());
 
         RPC.Server server = builder.build();
 

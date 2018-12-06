@@ -3,6 +3,15 @@ package model;
 public class RegMachine {
     private String regIp;
     private String regPort;
+    private String heartData;
+
+    public String getHeartData() {
+        return heartData;
+    }
+
+    public void setHeartData(String heartData) {
+        this.heartData = heartData;
+    }
 
     public String getRegIp() {
         return regIp;

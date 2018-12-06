@@ -35,20 +35,14 @@ public class Mysql {
             e.printStackTrace();
         }
     }
-
     public static void main(String[] args){
         Mysql mysql = new Mysql();
     }
 
-
-
-
     public int queryAllEventData(){
-
         int i = 0;
         //遍历查询结果集
         try {
-
             String sql = "SELECT * FROM eventdata";
             //3.ResultSet类，用来存放获取的结果集！！
             ResultSet rs = mysql_statement.executeQuery(sql);
@@ -56,7 +50,6 @@ public class Mysql {
                i++;
             }
         }catch (Exception e) {
-            // TODO: handle exception
             e.printStackTrace();
         }
         return i;
@@ -82,7 +75,6 @@ public class Mysql {
                 eventDatas.add(eventData);
             }
         }catch (Exception e) {
-            // TODO: handle exception
             e.printStackTrace();
         }
         return eventDatas;
@@ -134,10 +126,12 @@ public class Mysql {
             while(rs.next()){
                 String regIp = rs.getString("regIp");
                 String regPort = rs.getString("regPort");
+                String regHeartData = rs.getString("data");
 
                 RegMachine regMachine = new RegMachine();
                 regMachine.setRegIp(regIp);
                 regMachine.setRegPort(regPort);
+                regMachine.setHeartData(regHeartData);
 
                 regMachines.add(regMachine);
             }
@@ -164,21 +158,3 @@ public class Mysql {
         }
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

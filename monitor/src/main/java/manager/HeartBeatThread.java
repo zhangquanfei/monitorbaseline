@@ -1,61 +1,40 @@
 package manager;
 
 
+import model.RegMachine;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.ipc.RPC;
 import rpc.AddMonitorInterface;
 
 import java.net.InetSocketAddress;
+import java.util.List;
 
-public class HeartBeatThread extends Thread{
+public class HeartBeatThread extends Thread {
     public static Mysql mysql = new Mysql();
-    private String host;
-    private String port;
 
-    public String getHost() {
-        return host;
-    }
 
-    public void setHost(String host) {
-        this.host = host;
-    }
-
-    public String getPort() {
-        return port;
-    }
-
-    public void setPort(String port) {
-        this.port = port;
-    }
 
     @Override
     public void run() {
-        String result = "";
-        while (true){
+        while (true) {
             try {
                 sleep(3000);
-                try {
-                    AddMonitorInterface proxy = null;
-                    proxy = RPC.getProxy(AddMonitorInterface.class, 1L,
-                            new InetSocketAddress(host, Integer.parseInt(port)),
-                            new Configuration());
-                    result = proxy.addmonitor("","","","heartbeat","");
-                } catch (Exception e) {
-                    result = "fail";
-                }
+                long nowTime = System.currentTimeMillis();
+                List<RegMachine> regMachines =  mysql.queryRegMachine();
+                for (RegMachine regMachine : regMachines){
+                    String ip = regMachine.getRegIp();
+                    String port = regMachine.getRegPort();
+                    System.out.println(regMachine.getHeartData());
+                    long heartdata = Long.valueOf(regMachine.getHeartData());
 
-                System.out.println("结果："+result);
-
-                if (!"heartbeatsuccess".equals(result)){
-
-//                        ZookeeperClient zookeeperClient = new ZookeeperClient();
-//                        zookeeperClient.deletezookeeper(host+":"+port);
-                        mysql.deleteRegMachine(host);
-
-                        mysql.updateMonitor("停止中",host+":"+port);
-                }
-                if ("heartbeatsuccess".equals(result)){
-                        mysql.updateMonitor("运行中",host+":"+port);
+                    System.out.println("ip: "+ip +"  heartdata: "+ heartdata+"  nowTime: "+nowTime);
+                    long timeSub = (nowTime - heartdata) /1000;
+                    if (timeSub > 30){
+                        mysql.deleteRegMachine(ip);
+                        mysql.updateMonitor("停止中", ip + ":" + port);
+                    }else {
+                        mysql.updateMonitor("运行中", ip + ":" + port);
+                    }
                 }
             } catch (InterruptedException e) {
                 e.printStackTrace();

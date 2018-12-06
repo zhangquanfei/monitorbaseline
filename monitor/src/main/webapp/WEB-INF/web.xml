@@ -7,10 +7,6 @@
 
   <display-name>springmvc</display-name>
 
-
-
-
-
   <!--shiro,mybatis配置开始-->
   <context-param>
     <param-name>contextConfigLocation</param-name>
@@ -23,10 +19,6 @@
     <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
   </listener>
   <!--shiro,mybatis配置结束-->
-
-
-
-
 
   <!-- shiro配置开始-->
   <!-- shiro过虑器，DelegatingFilterProxy通过代理模式将spring容器中的bean和filter关联起来 -->
@@ -66,7 +58,6 @@
   </servlet-mapping>
   <!-- springmvc配置结束-->
 
-
 <!--引用的jps文件统一编码配置开始-->
   <filter>
     <filter-name>encodingFilter</filter-name>
@@ -88,6 +79,7 @@
   <!--引用的jps文件统一编码配置结束-->
 
 
+  <!--项目启动的时候会启动这个类-->
 <listener>
   <listener-class>manager.HeartBeat</listener-class>
 </listener>
